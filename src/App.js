@@ -1,21 +1,26 @@
 import './App.css';
+import { useCatsData } from './hooks/useCatsData';
 
 function App() {
+
+  const { data, isLoading, isError } = useCatsData();
+  console.log(data);
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <h1>Cat Breeds</h1>
+        {!isLoading && <>
+          {data?.map((cat) => (
+            <div key={cat.id}>
+              <h2>{cat.name}</h2>
+              <p>{cat.description}</p>
+            </div>
+          ))}
+        </>
+        }
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error fetching cats</p>}
+      </div>
     </div>
   );
 }
